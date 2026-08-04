@@ -4,12 +4,12 @@ export const Navbar: FC = () => (
   <nav className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between px-0 py-4 text-sm uppercase tracking-[0.32em] text-white/70">
     <div className="flex items-center gap-4">
       <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-medium tracking-[0.35em] text-white/90 backdrop-blur-md">
-        Future OS
+        Future Portfolio
       </span>
-      <span className="text-xs uppercase tracking-[0.35em] text-white/55">Concept presentation</span>
+      <span className="text-xs uppercase tracking-[0.35em] text-white/55">Interactive digital experiences</span>
     </div>
-    <a className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-5 py-2 text-xs uppercase tracking-[0.35em] text-white/80 transition hover:bg-white/10 hover:text-white" href="#">
-      Request preview
+    <a className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-5 py-2 text-xs uppercase tracking-[0.35em] text-white/80 transition hover:bg-white/10 hover:text-white" href="#work">
+      View work
     </a>
   </nav>
 );
@@ -17,22 +17,22 @@ export const Navbar: FC = () => (
 export const HeroContent: FC = () => (
   <div className="space-y-6 max-w-xl">
     <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.35em] text-white/70 backdrop-blur-md">
-      Refined digital stage
+      Portfolio
     </span>
     <h1 className="text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
-      Where calm motion meets polished depth.
+      I design immersive interfaces for premium technology brands.
     </h1>
     <p className="text-lg leading-8 text-slate-300 sm:text-xl">
-      A focused hero experience with quiet lighting, subtle materials, and a restrained overall feel.
+      Refined digital systems, cinematic motion, and premium product experiences that feel tactile, intelligent, and effortless.
     </p>
     <div className="grid gap-4 sm:grid-cols-2">
       <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-[0_30px_80px_rgba(0,0,0,0.2)] backdrop-blur-3xl">
-        <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Immersive</p>
-        <p className="mt-3 text-2xl font-semibold text-white">Balanced motion</p>
+        <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Product systems</p>
+        <p className="mt-3 text-2xl font-semibold text-white">Cinematic interaction</p>
       </div>
       <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-[0_30px_80px_rgba(0,0,0,0.2)] backdrop-blur-3xl">
-        <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Refined</p>
-        <p className="mt-3 text-2xl font-semibold text-white">Focused staging</p>
+        <p className="text-xs uppercase tracking-[0.35em] text-slate-400">Studio work</p>
+        <p className="mt-3 text-2xl font-semibold text-white">Premium digital interfaces</p>
       </div>
     </div>
   </div>

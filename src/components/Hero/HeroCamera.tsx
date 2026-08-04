@@ -12,8 +12,8 @@ const HeroCamera: FC = () => {
   const reduced = prefersReducedMotion();
 
   useEffect(() => {
-    perspectiveCamera.position.set(0, 0.15, 8);
-    perspectiveCamera.fov = 40;
+    perspectiveCamera.position.set(0, 0.15, 9.5);
+    perspectiveCamera.fov = 35;
     perspectiveCamera.updateProjectionMatrix();
   }, [perspectiveCamera]);
 
@@ -39,13 +39,13 @@ const HeroCamera: FC = () => {
     pointer.current.y += (target.current.y - pointer.current.y) * 0.06;
 
     // parallax & micro-rotation (reduced on mobile or reduced-motion)
-    const parallaxScale = isMobile() ? 0.25 : 0.6;
-    const rotScale = reduced ? 0.02 : 0.04;
+    const parallaxScale = isMobile() ? 0.18 : 0.35;
+    const rotScale = reduced ? 0.02 : 0.03;
     const x = pointer.current.x * parallaxScale;
     const y = pointer.current.y * parallaxScale * 0.5;
 
     perspectiveCamera.position.x += (x - perspectiveCamera.position.x) * 0.06;
-    perspectiveCamera.position.z += ((8 - Math.abs(pointer.current.x) * 0.5) - perspectiveCamera.position.z) * 0.02;
+    perspectiveCamera.position.z += ((9.5 - Math.abs(pointer.current.x) * 0.35) - perspectiveCamera.position.z) * 0.02;
     perspectiveCamera.rotation.x = THREE.MathUtils.lerp(perspectiveCamera.rotation.x, y * rotScale, 0.06);
     perspectiveCamera.rotation.y = THREE.MathUtils.lerp(perspectiveCamera.rotation.y, -x * rotScale, 0.06);
     perspectiveCamera.updateProjectionMatrix();

@@ -6,7 +6,7 @@ const HeroBackground: FC = () => {
   const material = useMemo(
     () =>
       new THREE.MeshBasicMaterial({
-        color: '#05070f',
+        color: '#04050c',
         side: THREE.BackSide,
       }),
     [],

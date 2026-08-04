@@ -12,13 +12,13 @@ const HeroSculpture: FC = () => {
   const outerMaterial = useMemo(
     () =>
       new THREE.MeshPhysicalMaterial({
-        color: new THREE.Color('#d8dff7'),
-        roughness: 0.22,
+        color: new THREE.Color('#8f9bb4'),
+        roughness: 0.3,
         metalness: 0.05,
-        clearcoat: 0.3,
-        clearcoatRoughness: 0.2,
+        clearcoat: 0.15,
+        clearcoatRoughness: 0.35,
         transparent: true,
-        opacity: 0.9,
+        opacity: 0.8,
       }),
     [],
   );
@@ -26,11 +26,11 @@ const HeroSculpture: FC = () => {
   const innerMaterial = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
-        color: '#f6f8ff',
-        emissive: '#d8e0ff',
-        emissiveIntensity: 0.25,
-        roughness: 0.2,
-        metalness: 0.1,
+        color: '#dfe6f2',
+        emissive: '#b8c4e3',
+        emissiveIntensity: 0.12,
+        roughness: 0.25,
+        metalness: 0.08,
       }),
     [],
   );
@@ -65,19 +65,19 @@ const HeroSculpture: FC = () => {
   });
 
   return (
-    <group ref={groupRef} position={[0, -0.18, 0]} scale={[SCULPTURE_SCALE, SCULPTURE_SCALE, SCULPTURE_SCALE]}>
+    <group ref={groupRef} position={[0, -0.18, -1.4]} scale={[SCULPTURE_SCALE, SCULPTURE_SCALE, SCULPTURE_SCALE]}>
       <mesh>
-        <sphereGeometry args={[0.7, 64, 64]} />
+        <sphereGeometry args={[0.6, 64, 64]} />
         <primitive object={outerMaterial} />
       </mesh>
 
       <mesh ref={ringRef} rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[1.05, 0.05, 30, 120]} />
+        <torusGeometry args={[0.92, 0.05, 30, 120]} />
         <primitive object={ringMaterial} />
       </mesh>
 
       <mesh position={[0, 0.14, 0]}>
-        <sphereGeometry args={[0.24, 32, 32]} />
+        <sphereGeometry args={[0.2, 32, 32]} />
         <primitive object={innerMaterial} />
       </mesh>
     </group>

@@ -1,6 +1,6 @@
 // Central Hero configuration and helpers
 export const HERO_RADIUS = 6;
-export const SCULPTURE_SCALE = 1.0;
+export const SCULPTURE_SCALE = 0.78;
 
 export const isMobile = (): boolean =>
   typeof window !== 'undefined' &&

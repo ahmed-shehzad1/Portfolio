@@ -18,7 +18,7 @@ const HeroCanvas: FC = () => {
           toneMapping: THREE.NoToneMapping,
         }}
         dpr={dpr}
-        camera={{ position: [0, 0, 8], fov: 40 }}
+        camera={{ position: [0, 0, 9.5], fov: 35 }}
         style={{ width: '100vw', height: '100vh', display: 'block' }}
       >
         <Suspense fallback={null}>
