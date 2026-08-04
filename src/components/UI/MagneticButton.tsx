@@ -1,4 +1,4 @@
-import React, { useRef, useState, type ReactNode, type MouseEvent } from 'react';
+import { useRef, useState, type ReactNode, type MouseEvent } from 'react';
 
 interface MagneticButtonProps {
   children: ReactNode;
