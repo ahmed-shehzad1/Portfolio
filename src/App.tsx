@@ -1,6 +1,8 @@
 // FILE: src/App.tsx
 import { Navbar } from './components/ui/Navbar';
 import { HeroBackground } from './components/sections/hero/HeroBackground';
+import { TechMarquee } from './components/ui/TechMarquee';
+import { PacmanSkills } from './components/sections/PacmanSkills';
 import { ProjectShowcase } from './components/sections/ProjectShowcase';
 import { Skills } from './components/sections/Skills';
 import { SystemCapabilities } from './components/sections/SystemCapabilities';
@@ -15,12 +17,18 @@ export default function App() {
       <ScrollScanline />
       <Navbar />
 
-      {/* Render Hero immediately without scroll triggers */}
       <main id="hero" className="relative min-h-screen">
         <HeroBackground />
       </main>
 
-      {/* Apply scroll reveal only to below-the-fold content */}
+      {/* Infinite Tech Ticker */}
+      <TechMarquee />
+
+      {/* Pac-Man Skill Muncher */}
+      <ScrollReveal direction="up">
+        <PacmanSkills />
+      </ScrollReveal>
+
       <ScrollReveal direction="up">
         <ProjectShowcase />
       </ScrollReveal>
