@@ -2,9 +2,9 @@
 
 class SoundManager {
   private ctx: AudioContext | null = null;
-  private muted: boolean = true; // Default muted until user interacts
+  private muted: boolean = true;
 
-  private getContext(): AudioContext | null {
+  private initContext(): AudioContext | null {
     if (typeof window === 'undefined') return null;
 
     if (!this.ctx) {
@@ -23,24 +23,22 @@ class SoundManager {
     return this.ctx;
   }
 
+  public setMuted(muted: boolean) {
+    this.muted = muted;
+    if (!this.muted) {
+      this.initContext();
+      this.playBeep(880, 0.1, 'sine'); // High chime test sound on enable
+    }
+  }
+
   public isMuted(): boolean {
     return this.muted;
   }
 
-  public toggleAudio(): boolean {
-    this.muted = !this.muted;
-    if (!this.muted) {
-      // Play a high-pitched activation chime when unmuted
-      this.playBeep(880, 0.1, 'sine');
-    }
-    return this.muted;
-  }
-
-  // Generic Cyber Beep (for button clicks/hovers)
   public playBeep(freq = 440, duration = 0.08, type: OscillatorType = 'sine') {
     if (this.muted) return;
     try {
-      const ctx = this.getContext();
+      const ctx = this.initContext();
       if (!ctx) return;
 
       const osc = ctx.createOscillator();
@@ -49,7 +47,7 @@ class SoundManager {
       osc.type = type;
       osc.frequency.setValueAtTime(freq, ctx.currentTime);
 
-      gain.gain.setValueAtTime(0.05, ctx.currentTime);
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
 
       osc.connect(gain);
@@ -58,15 +56,14 @@ class SoundManager {
       osc.start();
       osc.stop(ctx.currentTime + duration);
     } catch {
-      // Ignore browser autoplay restrictions
+      // Audio playback prevented by browser
     }
   }
 
-  // Pac-Man Munch SFX
   public playMunch() {
     if (this.muted) return;
     try {
-      const ctx = this.getContext();
+      const ctx = this.initContext();
       if (!ctx) return;
 
       const osc = ctx.createOscillator();
@@ -76,7 +73,7 @@ class SoundManager {
       osc.frequency.setValueAtTime(220, ctx.currentTime);
       osc.frequency.exponentialRampToValueAtTime(580, ctx.currentTime + 0.06);
 
-      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.setValueAtTime(0.12, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
 
       osc.connect(gain);
@@ -85,7 +82,7 @@ class SoundManager {
       osc.start();
       osc.stop(ctx.currentTime + 0.06);
     } catch {
-      // Ignore
+      // Audio playback prevented by browser
     }
   }
 }

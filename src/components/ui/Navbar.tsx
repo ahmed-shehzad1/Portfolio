@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSystemStore } from '../../store/useSystemStore';
 import { MagneticButton } from './MagneticButton';
+import { soundManager } from '../../utils/soundManager';
 
 const NAV_ITEMS = [
   { id: 'hero', label: '01 // SYSTEM' },
@@ -21,6 +22,12 @@ export function Navbar() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleAudioToggle = () => {
+    const nextState = !soundEnabled;
+    toggleSound();
+    soundManager.setMuted(!nextState);
+  };
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
@@ -82,7 +89,7 @@ export function Navbar() {
         {/* Actions HUD */}
         <div className="flex items-center gap-4">
           <button
-            onClick={toggleSound}
+            onClick={handleAudioToggle}
             aria-label="Toggle Sound"
             className="flex items-center gap-2 font-mono text-[10px] tracking-widest text-white/70 hover:text-[#00F58C] glass-panel px-3 py-1.5 rounded-md border border-white/10 hover:border-[#00F58C]/40 transition-all cursor-pointer"
           >
@@ -107,7 +114,7 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Subtle Theme Line Light (Visible when top, smooth fade-out when scrolling) */}
+      {/* Subtle Theme Line Light */}
       <div
         className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[1px] w-11/12 max-w-7xl bg-gradient-to-r from-transparent via-[#00F58C]/60 to-transparent transition-opacity duration-500 pointer-events-none ${
           scrolled ? 'opacity-0' : 'opacity-100'
