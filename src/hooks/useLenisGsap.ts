@@ -1,103 +1,82 @@
-// src/hooks/useLenisGsap.ts
+// FILE: src/hooks/useLenisGsap.ts
+
 import { useEffect, useRef, useCallback } from 'react';
-import Lenis from 'lenis';
+import Lenis, { type LenisOptions } from 'lenis';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
+// Safely register ScrollTrigger once
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// Minimal safe typing for standard Lenis options to ensure strictly typed usage
-export interface UseLenisGsapOptions {
-  wrapper?: Window | HTMLElement;
-  content?: HTMLElement;
-  eventsTarget?: Window | HTMLElement;
-  smoothWheel?: boolean;
-  syncTouch?: boolean;
-  syncTouchLerp?: number;
-  touchInertiaMultiplier?: number;
-  duration?: number;
-  easing?: (t: number) => number;
-  orientation?: 'vertical' | 'horizontal';
-  gestureOrientation?: 'vertical' | 'horizontal' | 'both';```typescript
-// src/hooks/useMousePosition.ts
-import { useState, useEffect, useRef } from 'react';
-
-export interface Position {
-  x: number;
-  y: number;
-}
-
-export interface MousePositionState {
-  raw: Position;
-  smoothed: Position;
-  velocity: Position;
+export interface UseLenisGsapResult {
+  lenis: Lenis | null;
+  /**
+   * Scroll progress (0 to 1). Exposed as a mutable ref to prevent
+   * costly React re-renders on every animation frame.
+   */
+  progress: React.MutableRefObject<number>;
+  pause: () => void;
+  resume: () => void;
 }
 
 /**
- * Tracks the mouse position, velocity, and a smoothed position.
- * Uses requestAnimationFrame to optimize calculations and minimizes
- * React state updates by only triggering when values actually change.
+ * Initializes Lenis smooth scrolling, synchronizes it with GSAP's centralized ticker,
+ * and updates ScrollTrigger on scroll.
  */
-export function useMousePosition(smoothing: number = 0.1): MousePositionState {
-  const [state, setState] = useState<MousePositionState>({
-    raw: { x: 0, y: 0 },
-    smoothed: { x: 0, y: 0 },
-    velocity: { x: 0, y: 0 },
-  });
-
-  const target = useRef<Position>({ x: 0, y: 0 });
-  const currentSmoothed = useRef<Position>({ x: 0, y: 0 });
-  const previousRaw = useRef<Position>({ x: 0, y: 0 });
-  const rafId = useRef<number | null>(null);
+export function useLenisGsap(options?: Partial<LenisOptions>): UseLenisGsapResult {
+  const lenisRef = useRef<Lenis | null>(null);
+  const progressRef = useRef<number>(0);
 
   useEffect(() => {
-    const onMouseMove = (e: MouseEvent) => {
-      target.current = { x: e.clientX, y: e.clientY };
+    // Initialize Lenis with correct v1.3.25 properties
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      ...options,
+    });
+
+    lenisRef.current = lenis;
+
+    // Sync Lenis scroll with GSAP ScrollTrigger and update progress ref
+    lenis.on('scroll', (e: Lenis) => {
+      ScrollTrigger.update();
+      progressRef.current = e.progress;
+    });
+
+    // Delegate Lenis's raf loop to GSAP's centralized ticker for optimized 60fps rendering
+    const updateLenis = (time: number) => {
+      lenis.raf(time * 1000);
     };
 
-    window.addEventListener('mousemove', onMouseMove, { passive: true });
-
-    const update = () => {
-      const { x: tX, y: tY } = target.current;
-      const { x: sX, y: sY } = currentSmoothed.current;
-      const { x: pX, y: pY } = previousRaw.current;
-
-      // Calculate new smoothed position (Lerp)
-      const newSmoothedX = sX + (tX - sX) * smoothing;
-      const newSmoothedY = sY + (tY - sY) * smoothing;
-
-      // Calculate velocity
-      const velX = tX - pX;
-      const velY = tY - pY;
-
-      const isMoving = Math.abs(velX) > 0.01 || Math.abs(velY) > 0.01;
-      const isSmoothing = Math.abs(tX - newSmoothedX) > 0.01 || Math.abs(tY - newSmoothedY) > 0.01;
-
-      if (isMoving || isSmoothing) {
-        currentSmoothed.current = { x: newSmoothedX, y: newSmoothedY };
-        previousRaw.current = { x: tX, y: tY };
-
-        setState({
-          raw: { x: tX, y: tY },
-          smoothed: { x: newSmoothedX, y: newSmoothedY },
-          velocity: { x: velX, y: velY },
-        });
-      }
-
-      rafId.current = requestAnimationFrame(update);
-    };
-
-    rafId.current = requestAnimationFrame(update);
+    gsap.ticker.add(updateLenis);
+    
+    // Prevent GSAP's lag smoothing from causing jumps during aggressive scrolling
+    gsap.ticker.lagSmoothing(0);
 
     return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      if (rafId.current !== null) {
-        cancelAnimationFrame(rafId.current);
-      }
+      gsap.ticker.remove(updateLenis);
+      lenis.destroy();
+      lenisRef.current = null;
     };
-  }, [smoothing]);
+  }, [options]);
 
-  return state;
+  const pause = useCallback(() => {
+    lenisRef.current?.stop();
+  }, []);
+
+  const resume = useCallback(() => {
+    lenisRef.current?.start();
+  }, []);
+
+  return { 
+    lenis: lenisRef.current, 
+    progress: progressRef, 
+    pause, 
+    resume 
+  };
 }
