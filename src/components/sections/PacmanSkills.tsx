@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type { IconType } from 'react-icons';
+import { soundManager } from '../../utils/soundManager';
 import {
   SiTypescript,
   SiJavascript,
@@ -127,6 +128,7 @@ export function PacmanSkills() {
               prevSkills.map((s) => {
                 if (!s.eaten && s.row === gridR && s.col === gridC) {
                   setScore((sc) => sc + 200);
+                  soundManager.playMunch(); // <--- Call soundManager here
                   return { ...s, eaten: true };
                 }
                 return s;
@@ -230,6 +232,7 @@ export function PacmanSkills() {
                   </div>
                 </motion.div>
               </div>
+              
             );
           })}
 
