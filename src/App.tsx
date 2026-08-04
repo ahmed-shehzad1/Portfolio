@@ -12,24 +12,24 @@ import { ScrollReveal } from './components/ui/ScrollReveal';
 export default function App() {
   return (
     <div className="relative bg-[#030308] text-white selection:bg-[#00F58C] selection:text-[#030308]">
-      {/* Top HUD Laser Scanline */}
       <ScrollScanline />
-
       <Navbar />
 
+      {/* Render Hero immediately without scroll triggers */}
       <main id="hero" className="relative min-h-screen">
         <HeroBackground />
       </main>
 
+      {/* Apply scroll reveal only to below-the-fold content */}
       <ScrollReveal direction="up">
         <ProjectShowcase />
       </ScrollReveal>
 
-      <ScrollReveal direction="up" delay={0.1}>
+      <ScrollReveal direction="up">
         <Skills />
       </ScrollReveal>
 
-      <ScrollReveal direction="up" delay={0.1}>
+      <ScrollReveal direction="up">
         <SystemCapabilities />
       </ScrollReveal>
 
