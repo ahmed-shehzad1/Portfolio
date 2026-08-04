@@ -17,7 +17,7 @@
   }
 }
 
-@theme {
+:root {
   --color-void: #020203;
   --color-void-surface: #08080c;
   --color-void-panel: rgba(15, 15, 22, 0.4);
