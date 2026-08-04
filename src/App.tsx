@@ -1,36 +1,35 @@
 // src/App.tsx
 import type { FC } from 'react';
 import HeroCanvas from '@/components/Hero/HeroCanvas';
-import { Navbar, HeroContent, ScrollIndicator, SocialLinks, AnimatedGradient } from '@/components/UI';
+import { Navbar, HeroContent, ScrollIndicator } from '@/components/UI';
 
 const App: FC = () => {
   return (
-    <main className="relative min-h-screen w-full overflow-hidden bg-void text-white antialiased">
-      {/* Existing Three.js hero canvas (do not modify Hero files) */}
+    <main className="relative min-h-screen overflow-hidden bg-[#05070f] text-white antialiased">
       <HeroCanvas />
 
-      {/* UI overlay above the canvas */}
-      <div className="absolute inset-0 z-30 pointer-events-none">
-        <AnimatedGradient />
+      <div className="absolute inset-0 z-10 pointer-events-none">
+        <div className="absolute inset-0 bg-black/30" />
+      </div>
 
-        <div className="pointer-events-auto">
-          <Navbar />
-        </div>
+      <div className="relative z-20 mx-auto flex min-h-screen max-w-[1300px] flex-col px-6 py-8 lg:px-12">
+        <Navbar />
 
-        <div className="absolute inset-0 z-40 flex items-center px-6 md:px-12 lg:px-24">
-          <div className="max-w-[1200px] mx-auto w-full flex items-center justify-between">
-            <div className="flex-1 pointer-events-auto py-12">
-              <div className="md:pt-10 lg:pt-14">
-                <HeroContent />
-              </div>
-            </div>
-            <div className="hidden lg:flex lg:w-1/3" />
+        <div className="flex flex-1 flex-col justify-center gap-8 py-16">
+          <HeroContent />
+
+          <div className="flex flex-wrap gap-4">
+            <a className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm uppercase tracking-[0.3em] text-white transition hover:bg-white/10 hover:text-white" href="#">
+              Request preview
+            </a>
+            <a className="inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3 text-sm uppercase tracking-[0.3em] text-white/70 transition hover:text-white" href="#">
+              View case
+            </a>
           </div>
         </div>
-
-        <SocialLinks />
-        <ScrollIndicator />
       </div>
+
+      <ScrollIndicator />
     </main>
   );
 };
