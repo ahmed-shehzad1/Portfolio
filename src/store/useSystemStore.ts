@@ -4,13 +4,13 @@ import { create } from 'zustand';
 export interface Project {
   id: string;
   title: string;
-  category: 'WebGL / 3D' | 'Full-Stack OS' | 'AI / Neural';
+  category: 'AI / Neural' | 'Full-Stack OS' | 'Systems & Infra';
   description: string;
   longDescription: string;
   tags: string[];
   metrics: { label: string; value: string }[];
   image: string;
-  liveUrl: string;
+  liveUrl?: string;
   githubUrl: string;
 }
 
