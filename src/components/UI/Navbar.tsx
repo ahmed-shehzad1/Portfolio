@@ -49,7 +49,7 @@ export function Navbar() {
           </div>
           <div>
             <span className="block font-mono text-xs font-bold tracking-widest text-white group-hover:text-[#00F58C] transition-colors">
-              AHMED SHEHZAD
+              AHMED SHAHZAD
             </span>
             <span className="block font-mono text-[9px] text-white/40 tracking-wider">
               SYSTEMS ARCHITECT

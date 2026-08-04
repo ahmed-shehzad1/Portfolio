@@ -5,7 +5,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-3">
           <span className="h-2 w-2 rounded-full bg-[#00F58C] animate-ping" />
-          <span>AHMED SHEHZAD // PORTFOLIO SYSTEM</span>
+          <span>AHMED SHAHZAD // PORTFOLIO SYSTEM</span>
         </div>
 
         <div>

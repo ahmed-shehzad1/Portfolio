@@ -26,7 +26,7 @@ export function HeroBackground() {
         <h1 className="font-display text-5xl sm:text-7xl md:text-8xl font-black uppercase tracking-tight text-white leading-none mb-6">
           AHMED <br />
           <span className="text-transparent [-webkit-text-stroke:1.5px_rgba(0,245,140,0.8)]">
-            SHEHZAD
+            SHAHZAD
           </span>
         </h1>
         <p className="text-white/70 text-base sm:text-lg max-w-2xl font-sans mb-8 leading-relaxed">
