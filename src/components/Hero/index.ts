@@ -7,4 +7,4 @@ export { default as HeroBackground } from './HeroBackground';
 export { default as HeroSculpture } from './HeroSculpture';
 export { default as HeroPostProcessing } from './HeroPostProcessing';
 export * from './HeroConfig';
-export default from './HeroCanvas';
+export { default } from './HeroCanvas';

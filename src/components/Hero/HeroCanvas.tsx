@@ -1,6 +1,7 @@
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import type { FC } from 'react';
+import * as THREE from 'three';
 import HeroScene from './HeroScene';
 import { DPR } from './HeroConfig';
 
@@ -13,7 +14,8 @@ const HeroCanvas: FC = () => {
         gl={{
           antialias: true,
           powerPreference: 'high-performance',
-          physicallyCorrectLights: true,
+          outputColorSpace: THREE.SRGBColorSpace,
+          toneMapping: THREE.NoToneMapping,
         }}
         dpr={dpr}
         camera={{ position: [0, 0, 8], fov: 40 }}

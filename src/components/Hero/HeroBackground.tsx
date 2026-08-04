@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import type { FC } from 'react';
 import * as THREE from 'three';
 import { useThree, useFrame } from '@react-three/fiber';
@@ -76,9 +76,8 @@ const HeroBackground: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useFrame((state) => {
+  useFrame(() => {
     if (materialRef.current) {
-      materialRef.current.uniforms.u_time.value = state.clock.elapsedTime;
       materialRef.current.uniforms.u_resolution.value.set(size.width, size.height);
     }
   });
@@ -87,7 +86,6 @@ const HeroBackground: FC = () => {
   return (
     <mesh ref={meshRef} scale={[1, 1, 1]}>
       <sphereGeometry args={[40, 48, 32]} />
-      {/* @ts-expect-error shader material */}
       <primitive object={materialRef.current ?? new THREE.MeshBasicMaterial({ color: '#000' })} />
     </mesh>
   );

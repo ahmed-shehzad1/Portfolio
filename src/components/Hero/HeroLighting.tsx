@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import type { FC } from 'react';
 import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -32,15 +32,13 @@ const HeroLighting: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useFrame((state) => {
-    const t = state.clock.elapsedTime;
+  useFrame(() => {
     if (keyRef.current) {
-      // subtle slow color shift and intensity modulation
-      keyRef.current.intensity = 0.9 + Math.sin(t * 0.12) * 0.05;
-      keyRef.current.color.lerp(new THREE.Color(0xffffff), 0.02);
+      keyRef.current.intensity = 1.0;
+      keyRef.current.color.set(0xffffff);
     }
     if (rimRef.current) {
-      rimRef.current.intensity = 0.35 + Math.cos(t * 0.09) * 0.06;
+      rimRef.current.intensity = 0.35;
     }
   });
 

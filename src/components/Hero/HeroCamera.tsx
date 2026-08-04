@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import type { FC } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -6,15 +6,16 @@ import { isMobile, prefersReducedMotion } from './HeroConfig';
 
 const HeroCamera: FC = () => {
   const { camera, gl } = useThree();
+  const perspectiveCamera = camera as THREE.PerspectiveCamera;
   const pointer = useRef({ x: 0, y: 0 });
   const target = useRef({ x: 0, y: 0 });
   const reduced = prefersReducedMotion();
 
   useEffect(() => {
-    camera.position.set(0, 0.15, 8);
-    camera.fov = 40;
-    camera.updateProjectionMatrix();
-  }, [camera]);
+    perspectiveCamera.position.set(0, 0.15, 8);
+    perspectiveCamera.fov = 40;
+    perspectiveCamera.updateProjectionMatrix();
+  }, [perspectiveCamera]);
 
   useEffect(() => {
     const handler = (e: PointerEvent) => {
@@ -27,11 +28,11 @@ const HeroCamera: FC = () => {
     return () => gl.domElement.removeEventListener('pointermove', handler);
   }, [gl.domElement]);
 
-  useFrame((state, delta) => {
+  useFrame((state, _delta) => {
     // breathe
     const t = state.clock.elapsedTime;
     const breath = Math.sin(t * 0.25) * 0.03;
-    camera.position.y += (breath - camera.position.y) * 0.05;
+    perspectiveCamera.position.y += (breath - perspectiveCamera.position.y) * 0.05;
 
     // smooth pointer
     pointer.current.x += (target.current.x - pointer.current.x) * 0.06;
@@ -43,11 +44,11 @@ const HeroCamera: FC = () => {
     const x = pointer.current.x * parallaxScale;
     const y = pointer.current.y * parallaxScale * 0.5;
 
-    camera.position.x += (x - camera.position.x) * 0.06;
-    camera.position.z += ((8 - Math.abs(pointer.current.x) * 0.5) - camera.position.z) * 0.02;
-    camera.rotation.x = THREE.MathUtils.lerp(camera.rotation.x, y * rotScale, 0.06);
-    camera.rotation.y = THREE.MathUtils.lerp(camera.rotation.y, -x * rotScale, 0.06);
-    camera.updateProjectionMatrix();
+    perspectiveCamera.position.x += (x - perspectiveCamera.position.x) * 0.06;
+    perspectiveCamera.position.z += ((8 - Math.abs(pointer.current.x) * 0.5) - perspectiveCamera.position.z) * 0.02;
+    perspectiveCamera.rotation.x = THREE.MathUtils.lerp(perspectiveCamera.rotation.x, y * rotScale, 0.06);
+    perspectiveCamera.rotation.y = THREE.MathUtils.lerp(perspectiveCamera.rotation.y, -x * rotScale, 0.06);
+    perspectiveCamera.updateProjectionMatrix();
   });
 
   return null;

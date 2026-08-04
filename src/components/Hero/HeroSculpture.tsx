@@ -1,7 +1,7 @@
-import React, { useMemo, useRef, useEffect } from 'react';
+import { useMemo, useRef, useEffect } from 'react';
 import type { FC } from 'react';
 import * as THREE from 'three';
-import { useFrame, useThree } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import { MeshTransmissionMaterial } from '@react-three/drei';
 import { SCULPTURE_SCALE, isMobile, prefersReducedMotion } from './HeroConfig';
 
@@ -26,7 +26,6 @@ const buildLathe = (profile: [number, number][], segments = 80) => {
 const HeroSculpture: FC = () => {
   const groupRef = useRef<THREE.Group | null>(null);
   const innerRef = useRef<THREE.Mesh | null>(null);
-  const { scene } = useThree();
   const reduced = prefersReducedMotion();
   const mobile = isMobile();
 
@@ -60,7 +59,8 @@ const HeroSculpture: FC = () => {
   const transmissionMaterial = useMemo(() => {
     // if MeshTransmissionMaterial is available, prefer it; otherwise fallback
     try {
-      const mat = new MeshTransmissionMaterial({
+      const MeshTransmissionMaterialCtor = MeshTransmissionMaterial as unknown as new (props: any) => any;
+      const mat = new MeshTransmissionMaterialCtor({
         samples: 8,
         toneMapped: true,
         transmission: 0.95,
@@ -130,7 +130,6 @@ const HeroSculpture: FC = () => {
             if (groupRef.current) groupRef.current.rotation.y += 0.08;
           }}
         >
-          {/* @ts-expect-error MeshTransmissionMaterial typing */}
           <primitive object={transmissionMaterial} />
         </mesh>
       ))}

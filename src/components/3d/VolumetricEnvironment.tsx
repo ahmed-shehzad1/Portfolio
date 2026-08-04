@@ -1,5 +1,5 @@
 // src/components/3d/VolumetricEnvironment.tsx
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Environment, Sparkles } from '@react-three/drei';
 import * as THREE from 'three';

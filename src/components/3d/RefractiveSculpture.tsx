@@ -1,5 +1,5 @@
 // src/components/3d/RefractiveSculpture.tsx
-import React, { useRef, useState, useEffect, useMemo } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { MeshTransmissionMaterial, Float } from '@react-three/drei';
 import * as THREE from 'three';
